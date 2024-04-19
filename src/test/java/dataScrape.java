@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.Test;
@@ -8,7 +9,7 @@ import java.util.List;
 public class dataScrape {
 
     @Test
-    public void openLandP(){
+    public void openLandP() {
         String url = "https://www.cvmarket.lt/darbo-skelbimai?op=search&search%5Bjob_salary%5D=3&ga_track=homepage&search%5Blocations%5D%5B%5D=134&search%5Bcategories%5D%5B%5D=8&search%5Bkeyword%5D=";
         ChromeDriver driver = new ChromeDriver();
         driver.get(url);
@@ -17,19 +18,15 @@ public class dataScrape {
     }
 
     @Test
-    public void scrape(){
-        String url = "https://www.cvmarket.lt/darbo-skelbimai?op=search&search%5Bjob_salary%5D=3&search%5Blocations%5D%5B0%5D=134&search%5Bcategories%5D%5B0%5D=8&search%5Bkeyword%5D=&ga_track=homepage&start=00";
+    public void scrape() {
+        String url = "https://www.cvmarket.lt/darbo-skelbimai?op=search&search%5Bjob_salary%5D=3&search%5Blocations%5D%5B0%5D=134&search%5Bcategories%5D%5B0%5D=8&search%5Bkeyword%5D=&ga_track=homepage&start=";
         ChromeDriver driver = new ChromeDriver();
-        driver.get(url);
         driver.manage().window().maximize();
 
         //Loop through every page
-        int i = 0;
-        String url1 = "https://www.cvmarket.lt/darbo-skelbimai?op=search&search%5Bjob_salary%5D=3&search%5Blocations%5D%5B0%5D=134&search%5Bcategories%5D%5B0%5D=8&search%5Bkeyword%5D=&ga_track=homepage&start=" + i + "0";
-        driver.get(url1);
-        while (i <= 201){
-            i += 3;
-        }
+        for (int i = 0; i <= 201; i += 3) {
+            String url1 = url + i + "0";
+            driver.get(url1);
 
             //Wait
             try {
@@ -37,6 +34,32 @@ public class dataScrape {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        List<WebElement> h3Elements = driver.findElements(By.xpath("//article"));
+            //Find all listed elements
+            List<WebElement> h3Elements = driver.findElements(By.xpath("//article"));
+
+            if (h3Elements.isEmpty()) {
+                break;
+            }
+
+            //Run it through condition
+            for (WebElement h3 : h3Elements) {
+                String h3Text = h3.getText();
+                if (h3Text.contains("QA") || h3Text.contains("automation") || h3Text.contains("engineer") || h3Text.contains("testuotojas") || h3Text.contains("Junior") || h3Text.contains("Tester") || h3Text.contains("Quality") || h3Text.contains("Assurance")) {
+                    System.out.println("");
+                    System.out.println("Pozicija: " + h3.findElement(By.xpath("//h2")).getText()); // Print position
+                    try {
+                        String salary = h3.findElement(By.xpath("/html/body/section/main/section/article[3]/a/div[1]/div[2]/div[2]/div[2]")).getText(); //Print salary
+                        System.out.println("Darbo uždarbis: " + salary);
+                    } catch (NoSuchElementException e) {
+                        System.out.println("Darbo uždarbis nematomas");
+                    }
+                    System.out.println("Skelbimo URL: " + h3.findElement(By.xpath("//article")).getAttribute("href")); //Print URL
+                }
+
+            }
+
+        }
     }
 }
+
+
