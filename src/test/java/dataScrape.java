@@ -42,18 +42,18 @@ public class dataScrape {
             }
 
             //Run it through condition
-            for (WebElement h3 : h3Elements) {
-                String h3Text = h3.getText();
+            for (WebElement h2 : h3Elements) {
+                String h3Text = h2.getText();
                 if (h3Text.contains("QA") || h3Text.contains("automation") || h3Text.contains("engineer") || h3Text.contains("testuotojas") || h3Text.contains("Junior") || h3Text.contains("Tester") || h3Text.contains("Quality") || h3Text.contains("Assurance")) {
                     System.out.println("");
-                    System.out.println("Pozicija: " + h3.findElement(By.xpath("//h2")).getText()); // Print position
+                    System.out.println("Pozicija: " + h2.findElement(By.xpath(".//h2")).getText()); // Print position
                     try {
-                        String salary = h3.findElement(By.xpath("/html/body/section/main/section/article[3]/a/div[1]/div[2]/div[2]/div[2]")).getText(); //Print salary
+                        String salary = h2.findElement(By.xpath("/html/body/section/main/section/article[3]/a/div[1]/div[2]/div[2]/div[2]")).getText(); //Print salary
                         System.out.println("Darbo uždarbis: " + salary);
                     } catch (NoSuchElementException e) {
                         System.out.println("Darbo uždarbis nematomas");
                     }
-                    System.out.println("Skelbimo URL: " + h3.findElement(By.xpath("//article")).getAttribute("href")); //Print URL
+                    System.out.println("Skelbimo URL: " + h2.findElement(By.xpath(".//a")).getAttribute("href")); //Print URL
                 }
 
             }
