@@ -44,7 +44,7 @@ public class dataScrape {
             //Run it through condition
             for (WebElement h2 : h3Elements) {
                 String h3Text = h2.getText();
-                if (h3Text.contains("QA") || h3Text.contains("automation") || h3Text.contains("engineer") || h3Text.contains("testuotojas") || h3Text.contains("Junior") || h3Text.contains("Tester") || h3Text.contains("Quality") || h3Text.contains("Assurance")) {
+                if (h3Text.contains("QA") || h3Text.contains("automation") || h3Text.contains("engineer") || h3Text.contains("testuotojas") || h3Text.contains("Junior") || h3Text.contains("Tester") || h3Text.contains("Quality") || h3Text.contains("Assurance") || h3Text.contains("Manual") || h3Text.contains("Rankinis")) {
                     System.out.println("");
                     System.out.println("Pozicija: " + h2.findElement(By.xpath(".//h2")).getText()); // Print position
                     try {
