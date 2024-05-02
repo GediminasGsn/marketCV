@@ -56,7 +56,7 @@ public class dataScrape {
                     System.out.println("");
                     System.out.println("Pozicija: " + h2.findElement(By.xpath(".//h2")).getText()); // Print position
                     try {
-                        String salary = h2.findElement(By.xpath("/html/body/section/main/section/article[3]/a/div[1]/div[2]/div[2]/div[2]")).getText(); //Print salary
+                        String salary = h2.findElement(By.xpath("//div[1]/div[2]/div[2]/div[2]")).getText(); //Print salary
                         System.out.println("Darbo uždarbis: " + salary);
                     } catch (NoSuchElementException e) {
                         System.out.println("Darbo uždarbis nematomas");
